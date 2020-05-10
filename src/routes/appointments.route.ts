@@ -1,12 +1,15 @@
-import { Router, request } from 'express'
-import { getCustomRepository } from 'typeorm'
-import { parseISO } from 'date-fns'
+import { Router, request } from 'express';
+import { getCustomRepository } from 'typeorm';
+import { parseISO } from 'date-fns';
 
 import AppointmentsRepository from '../repositories/AppointmentRepository';
-import CreateAppointment from '../services/CreateAppointmentService';
 import CreateAppointmentService from '../services/CreateAppointmentService';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const appointmentsRouter = Router();
+
+appointmentsRouter.use(ensureAuthenticated);
 
 appointmentsRouter.get('/', async (request, response) => {
   const appointmentsRepository = getCustomRepository(AppointmentsRepository);
